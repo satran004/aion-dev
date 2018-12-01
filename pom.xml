@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.satran.aion</groupId>
+    <artifactId>aion-dev</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <aion-version>0.3.2</aion-version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.5.4</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>aion_fastvm</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modAion</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modAionBase</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modCrypto</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modMcf</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modVM</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modPrecompiled</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>libJson</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>libnsc</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
+
+
+        <!-- Other standard libraries -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>1.2-groovy-2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${basedir}/src/test/groovy"/>
+                                <taskdef name="groovyc"
+                                    classname="org.codehaus.groovy.ant.Groovyc">
+                                    <classpath refid="maven.test.classpath"/>
+                                </taskdef>
+                                <mkdir dir="${project.build.testOutputDirectory}"/>
+                                <groovyc destdir="${project.build.testOutputDirectory}"
+                                    srcdir="${basedir}/src/test/groovy/" listfiles="true">
+                                    <classpath refid="maven.test.classpath"/>
+                                </groovyc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
