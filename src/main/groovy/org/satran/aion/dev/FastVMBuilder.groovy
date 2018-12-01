@@ -1,4 +1,4 @@
-package org.satran.aion.devtools
+package org.satran.aion.dev
 
 import org.aion.vm.ExecutionContext
 

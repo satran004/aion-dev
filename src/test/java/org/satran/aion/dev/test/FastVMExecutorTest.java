@@ -1,13 +1,13 @@
-package org.satran.aion.devtools.test;
+package org.satran.aion.dev.test;
 
 import org.aion.base.util.Hex;
 import org.aion.mcf.vm.types.DataWord;
 import org.aion.vm.ExecutionContext;
 import org.aion.vm.ExecutionResult;
 import org.junit.Test;
-import org.satran.aion.devtools.DummyRepository;
-import org.satran.aion.devtools.ExecutionContextBuilder;
-import org.satran.aion.devtools.FastVMExecutor;
+import org.satran.aion.dev.DummyRepository;
+import org.satran.aion.dev.ExecutionContextBuilder;
+import org.satran.aion.dev.FastVMExecutor;
 
 public class FastVMExecutorTest {
 

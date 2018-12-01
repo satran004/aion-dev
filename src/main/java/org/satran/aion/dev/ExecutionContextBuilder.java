@@ -1,4 +1,4 @@
-package org.satran.aion.devtools;
+package org.satran.aion.dev;
 
 import org.aion.base.type.Address;
 import org.aion.mcf.vm.types.DataWord;
