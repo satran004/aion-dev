@@ -1,1 +1,1 @@
-# aion-dev
+# aion4j-core
