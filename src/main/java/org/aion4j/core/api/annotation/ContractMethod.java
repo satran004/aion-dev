@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface ContractMethod {
 
-    //abi method signature without modifier and return type. Example:  get(uint8,bool)
     String name();
 
     String[] params();
