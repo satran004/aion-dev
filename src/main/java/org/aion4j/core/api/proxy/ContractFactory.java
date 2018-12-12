@@ -16,50 +16,54 @@ import org.slf4j.LoggerFactory;
 
 public class ContractFactory {
 
-    private final static Logger logger = LoggerFactory.getLogger(ContractFactory.class);
+  private static final Logger logger = LoggerFactory.getLogger(ContractFactory.class);
 
-    public static <T> T get(Class<T> tClass) {
+  public static <T> T get(Class<T> tClass, boolean initialize) {
 
-        try {
-            Contract contract = AnnotationHelper.getContructorAnnotation(tClass);
+    try {
+      Contract contract = AnnotationHelper.getContructorAnnotation(tClass);
 
-            if (contract == null)
-                throw new A4jAnnotationException(
-                    "Contract annotation is missing. Please add @Contract to this class first");
+      if (contract == null)
+        throw new A4jAnnotationException(
+            "Contract annotation is missing. Please add @Contract to this class first");
 
-            T instance = new ByteBuddy()
-                .subclass(tClass)
-                .method(ElementMatchers
-                        .declaresAnnotation(ElementMatchers.annotationType(ContractMethod.class))
-                        .or(ElementMatchers.named("setContext"))
-                        .or(ElementMatchers.named("getContext"))
-                    )
-                .intercept(MethodDelegation.to(ContractInterceptor.class))
-                .defineField("context", ContractContext.class, Modifier.PUBLIC)
-                .make()
-                .load(tClass.getClassLoader())
-                .getLoaded()
-                .newInstance();
+      T instance =
+          new ByteBuddy()
+              .subclass(tClass)
+              .method(
+                  ElementMatchers.declaresAnnotation(
+                          ElementMatchers.annotationType(ContractMethod.class))
+                      .or(ElementMatchers.named("setContext"))
+                      .or(ElementMatchers.named("getContext")))
+              .intercept(MethodDelegation.to(ContractInterceptor.class))
+              .defineField("context", ContractContext.class, Modifier.PUBLIC)
+              .make()
+              .load(tClass.getClassLoader())
+              .getLoaded()
+              .newInstance();
 
-            BaseContract contractObj = ((BaseContract) instance);
+      if (initialize) {
+        BaseContract contractObj = ((BaseContract) instance);
 
-            ContractContext contractContext = new ContractContext();
-            contractContext.setAbiJson(contract.abi());
-            contractContext.setSourceFile(contract.source());
+        ContractContext contractContext = new ContractContext(tClass);
+        contractContext.setAbiJson(contract.abi());
+        contractContext.setSourceFile(contract.source());
+        contractContext.setName(contract.name());
 
-           /* if(!StringUtils.isEmpty(contract.source())) {
-                contractContext.compile();
-            }*/
+        //set VM context
+        contractContext.initVMContext();
+        contractObj.setContext(contractContext);
+      }
 
-            contractObj.setContext(contractContext);
-
-            return (T)contractObj;
-        } catch (Exception e) {
-            logger.error("Error initializing proxy class for the contract: " + tClass, e);
-            throw new A4jProcessingException("error initializing proxy class : " + tClass, e);
-        }
-
+      return instance;
+    } catch (Exception e) {
+      logger.error("Error initializing proxy class for the contract: " + tClass, e);
+      throw new A4jProcessingException("error initializing proxy class : " + tClass, e);
     }
+  }
 
+  public static <T> T get(Class<T> tClass) {
+    return get(tClass, true);
+  }
 
 }

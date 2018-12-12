@@ -10,10 +10,7 @@ import java.lang.annotation.Target;
 public @interface Contract {
 
     String name();
-
-    String abi();
-
+    String abi() default "";
     String source(); //only required for contract deployment support
 
-  //  String address(); //Required for contract remote address
 }

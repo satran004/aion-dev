@@ -49,25 +49,10 @@ public class ContractInterceptor {
             }
         }
 
-        System.out.println("Called method : " + method.getName() + " with arguments: " + args);
-        return null;
+        //Other contract methods.
+        return baseContract.getContext().execute(method, args);
+
     }
 
-    private ContractContext context;
 
-    private void execute() {
-
-//        ExecutionContextBuilder builder = new ExecutionContextBuilder();
-//        ExecutionContext ctx = builder.nrgPrice(DataWord.ONE)
-//            .nrgLimit(20000)
-//            .callValue(DataWord.ZERO)
-//            .callData(new byte[0])
-//            .build();
-//
-//        FastVMExecutor executor = new FastVMExecutor(new DummyRepository());
-//
-//        byte[] code = Hex.decode("6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF60020160E052601060E0F3");
-//
-//        ExecutionResult result = executor.run(ctx, code);
-    }
 }

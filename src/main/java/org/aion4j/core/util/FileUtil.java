@@ -17,7 +17,7 @@ public class FileUtil {
             String data = lines.collect(Collectors.joining("\n"));
             lines.close();
 
-            System.out.println(data);
+            //System.out.println(data);
             return data;
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -17,7 +17,7 @@
         </layout>
     </appender>
 
-    <logger name="org.aion4j" level="DEBUG"
+    <logger name="org.aion4j" level="INFO"
             additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>

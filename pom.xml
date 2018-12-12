@@ -61,6 +61,11 @@
             <artifactId>modPrecompiled</artifactId>
             <version>${aion-version}</version>
         </dependency>
+        <dependency>
+            <groupId>aion</groupId>
+            <artifactId>modRlp</artifactId>
+            <version>${aion-version}</version>
+        </dependency>
 
         <dependency>
             <groupId>aion</groupId>
